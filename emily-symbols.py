@@ -65,11 +65,11 @@ def lookup(key):
     # variants                                          EU
     # selection                                                FRPBLG
     # repetitions                                                         TS
-    #                                       (unused: DZ)
-    match = re.fullmatch(r'([#STKPWHR]*)([AO]*)([*-]?)([EU]*)([FRPBLG]*)([TS]*)', key[0])
+    # semicolon                                                                  DZ
+    match = re.fullmatch(r'([#STKPWHR]*)([AO]*)([*-]?)([EU]*)([FRPBLG]*)([TS]*)([DZ]*)', key[0])
     if match is None:
         raise KeyError
-    (starter, attachments, capitalisation, variants, selection, repetitions) = match.groups()
+    (starter, attachments, capitalisation, variants, selection, repetitions, semicolon) = match.groups()
 
     if starter not in uniqueStarters:
         raise KeyError
@@ -131,6 +131,10 @@ def lookup(key):
     # apply capitalisation
     if capital:
         output = output + "{-|}"
+
+    # add semicolon
+    if semicolon != "":
+        output = output + "{^~|;\n^}"
 
     # all done :D
     return output
